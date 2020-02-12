@@ -5,6 +5,7 @@ from math import sqrt
 pygame.init()
  
 # Define the colors we will use in RGB format
+GREY   = (225, 225, 225)
 BLACK  = (  0,   0,   0)
 WHITE  = (255, 255, 255)
 BLUE   = (  0,   0, 255)
@@ -72,7 +73,7 @@ while not done:
         if event.type == pygame.QUIT:
             done=True
  
-    screen.fill(WHITE)
+    screen.fill(GREY)
 
     def lineGreen(x, y, quantity, side, piece):
         triangle = Triangle()
