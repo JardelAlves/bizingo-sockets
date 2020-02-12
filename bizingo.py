@@ -36,18 +36,31 @@ class Triangle():
         # Primeiro ponto: acima
         # Segundo ponto: esquerda
         # Terceiro ponto: direita
-        pygame.draw.polygon(screen, GREEN, [[(side/2)+x, y], [x, (self.height) + y], [(self.endPoint), (self.height) + y]])
+        pygame.draw.polygon(screen, GREEN, [[(side/2) + x, y], [x, (self.height) + y], [(self.endPoint), (self.height) + y]])
 
-    def drawPiece(self, piece):
+    def drawDownsideTriangle(self, side, x, y):
+        self.side = side
+        self.x = x
+        self.y = y
+        self.height = side * sqrt(3)/2
+        self.endPoint = x + side
+        # Primeiro ponto: esquerda
+        # Segundo ponto: direita
+        # Terceiro ponto: abaixo
+        pygame.draw.polygon(screen, BLACK, [[x, y], [(self.endPoint), y], [(side/2) + x, (self.height) + y]])
+
+    def drawPiece(self, piece, center):
         self.piece = piece
+        self.center = center
+
         if piece == "black":
-            pygame.draw.circle(screen, BLACK, [int(((self.side)/2) + self.x), int((self.height)/1.5)], 40)
+            pygame.draw.circle(screen, BLACK, [int(((self.side)/2) + self.x), int(((self.height)/self.center) + self.y)], 10)
         elif piece == "red":
-            pygame.draw.circle(screen, RED, [int(((self.side)/2) + self.x), int((self.height)/1.5)], 40)
+            pygame.draw.circle(screen, RED, [int(((self.side)/2) + self.x), int(((self.height)/self.center) + self.y)], 10)
         elif piece == "blue":
-            pygame.draw.circle(screen, BLUE, [int(((self.side)/2) + self.x), int((self.height)/1.5)], 40)
+            pygame.draw.circle(screen, BLUE, [int(((self.side)/2) + self.x), int(((self.height)/self.center) + self.y)], 10)
         elif piece == "yellow":
-            pygame.draw.circle(screen, YELLOW, [int(((self.side)/2) + self.x), int((self.height)/1.5)], 40)
+            pygame.draw.circle(screen, YELLOW, [int(((self.side)/2) + self.x), int(((self.height)/self.center) + self.y)], 10)
         else:
             pass
         
@@ -61,17 +74,51 @@ while not done:
  
     screen.fill(WHITE)
 
-    x0 = 0
-    y0 = 0
+    def lineGreen(x, y, quantity, side, piece):
+        triangle = Triangle()
+        for i in range(quantity):
+            triangle.drawUpsideTriangle(side, x, y)
+            triangle.drawPiece(piece, 1.5)
+            x = x + side
 
-    triangle = Triangle()
-    # triangle.drawUpsideTriangle(200, 200, y0)
-    # triangle.drawPiece("yellow")
-    for i in range(3):
-        triangle.drawUpsideTriangle(200, x0, y0)
-        triangle.drawPiece("yellow")
-        x0 = x0 + 200
+    def lineWhite(x, y, quantity, side, piece):
+        triangle = Triangle()
+        for i in range(quantity):
+            triangle.drawDownsideTriangle(side, x, y)
+            triangle.drawPiece(piece, 2.5)
+            x = x + side
 
+    def drawBoardGreen():
+        x = 350
+        y = 100
+        for i in range(3, 12):
+            lineGreen(x, y, i, 50, "red")
+            x = x - 25
+            y = y + (50 * sqrt(3)/2)
+
+        x = x + 50
+        for i in range(10, 8, -1):
+            lineGreen(x, y, i, 50, "red")
+            x = x + 25
+            y = y + (50 * sqrt(3)/2)
+
+    def drawBoardWhite():
+        x = 375
+        y = 100
+        for i in range(2, 12):
+            lineWhite(x, y, i, 50, "blue")
+            x = x - 25
+            y = y + (50 * sqrt(3)/2)
+
+        x = x + 50
+        for i in range(10, 9, -1):
+            lineWhite(x, y, i, 50, "blue")
+            x = x + 25
+            y = y + (50 * sqrt(3)/2)
+
+    drawBoardGreen()
+
+    drawBoardWhite()
     pygame.display.flip()
  
 pygame.quit()
