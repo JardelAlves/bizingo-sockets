@@ -24,57 +24,54 @@ clock = pygame.time.Clock()
  
 # This draws a triangle using the polygon command
 class Triangle():
-    def __init__(self, side, initialPoint, piece):
-        self.side = side
-        self.initialPoint = initialPoint
-        self.piece = piece
-        self.height = side*sqrt(3)/2
+    def __init__(self):
+        pass
         
-    def drawTriangle(self):
+    def drawUpsideTriangle(self, side, x, y):
+        self.side = side
+        self.x = x
+        self.y = y
+        self.height = side * sqrt(3)/2
+        self.endPoint = x + side
         # Primeiro ponto: acima
         # Segundo ponto: esquerda
         # Terceiro ponto: direita
-        pygame.draw.polygon(screen, GREEN, [[(self.side)/2, self.initialPoint], [self.initialPoint, self.height], [self.side, self.height]])
+        pygame.draw.polygon(screen, GREEN, [[(side/2)+x, y], [x, (self.height) + y], [(self.endPoint), (self.height) + y]])
 
-    def drawPiece(self):
-        if self.piece == "black":
-            pygame.draw.circle(screen, BLACK, [int((self.side)/2), int((self.height)/1.5)], 40)
-        elif self.piece == "red":
-            pygame.draw.circle(screen, RED, [int((self.side)/2), int((self.height)/1.5)], 40)
-        elif self.piece == "blue":
-            pygame.draw.circle(screen, BLUE, [int((self.side)/2), int((self.height)/1.5)], 40)
-        elif self.piece == "yellow":
-            pygame.draw.circle(screen, YELLOW, [int((self.side)/2), int((self.height)/1.5)], 40)
+    def drawPiece(self, piece):
+        self.piece = piece
+        if piece == "black":
+            pygame.draw.circle(screen, BLACK, [int(((self.side)/2) + self.x), int((self.height)/1.5)], 40)
+        elif piece == "red":
+            pygame.draw.circle(screen, RED, [int(((self.side)/2) + self.x), int((self.height)/1.5)], 40)
+        elif piece == "blue":
+            pygame.draw.circle(screen, BLUE, [int(((self.side)/2) + self.x), int((self.height)/1.5)], 40)
+        elif piece == "yellow":
+            pygame.draw.circle(screen, YELLOW, [int(((self.side)/2) + self.x), int((self.height)/1.5)], 40)
         else:
             pass
         
 while not done:
  
-    # This limits the while loop to a max of 10 times per second.
-    # Leave this out and we will use all CPU we can.
     clock.tick(10)
      
-    for event in pygame.event.get(): # User did something
-        if event.type == pygame.QUIT: # If user clicked close
-            done=True # Flag that we are done so we exit this loop
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            done=True
  
-    # All drawing code happens after the for loop and but
-    # inside the main while done==False loop.
-     
-    # Clear the screen and set the screen background
     screen.fill(WHITE)
 
-    triangle = Triangle(200, 0, "yellow")
-    triangle.drawTriangle()
-    triangle.drawPiece()
+    x0 = 0
+    y0 = 0
 
-    # for i in range (1, 3):
-    #     anotherPoint = 100 * i
-    #     drawTriangle(100, anotherPoint, i)
+    triangle = Triangle()
+    # triangle.drawUpsideTriangle(200, 200, y0)
+    # triangle.drawPiece("yellow")
+    for i in range(3):
+        triangle.drawUpsideTriangle(200, x0, y0)
+        triangle.drawPiece("yellow")
+        x0 = x0 + 200
 
-    # Go ahead and update the screen with what we've drawn.
-    # This MUST happen after all the other drawing commands.
     pygame.display.flip()
  
-# Be IDLE friendly
 pygame.quit()
