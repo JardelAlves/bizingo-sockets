@@ -5,11 +5,11 @@ from math import sqrt
 pygame.init()
  
 # Define the colors we will use in RGB format
-GREY   = (225, 225, 225)
+GREY   = (200, 200, 200)
 BLACK  = (  0,   0,   0)
 WHITE  = (255, 255, 255)
 BLUE   = (  0,   0, 255)
-GREEN  = (  0, 255,   0)
+GREEN  = ( 25, 255,  50)
 RED    = (255,   0,   0)
 YELLOW = (255, 255,   0)
  
@@ -56,7 +56,7 @@ class Triangle():
         # Primeiro ponto: esquerda
         # Segundo ponto: direita
         # Terceiro ponto: abaixo
-        pygame.draw.polygon(screen, BLACK, [self.leftPointDownside, self.rightPointDownside, self.downPointDownside])
+        pygame.draw.polygon(screen, WHITE, [self.leftPointDownside, self.rightPointDownside, self.downPointDownside])
 
     def drawPiece(self, piece, center):
         self.piece = piece
@@ -100,8 +100,8 @@ while not done:
             listTrianglesWhite[wWhite][i] = triangle
 
     def drawBoardGreen():
-        x = 350
-        y = 100
+        x = 300
+        y = 225
         wGreen = 0
         for i in range(3, 12):
             lineGreen(x, y, i, 50, wGreen)
@@ -117,8 +117,8 @@ while not done:
             wGreen += 1
 
     def drawBoardWhite():
-        x = 375
-        y = 100
+        x = 325
+        y = 225
         wWhite = 0
         for i in range(2, 12):
             lineWhite(x, y, i, 50, wWhite)
