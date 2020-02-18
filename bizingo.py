@@ -72,7 +72,7 @@ class Triangle():
             pygame.draw.circle(screen, YELLOW, [int(((self.side)/2) + self.x), int(((self.height)/self.center) + self.y)], 10)
         else:
             pass
-        
+
 while not done:
     clock.tick(10)
      
@@ -82,59 +82,62 @@ while not done:
  
     screen.fill(GREY)
 
-    w, h = 12, 12
-    wGreen = 0
+    w, h = 11, 11
     listTrianglesGreen = [[0 for x in range(w)] for y in range(h)]
-    def lineGreen(x, y, quantity, side):
+    def lineGreen(x, y, quantity, side, wGreen):
         triangle = Triangle()
         for i in range(quantity):
             triangle.drawUpsideTriangle(side, x, y, False)
             x = x + side
-            listTrianglesGreen[wGreen][i] = triangle.x
+            listTrianglesGreen[wGreen][i] = triangle
 
-    listTrianglesWhite = []
-    def lineWhite(x, y, quantity, side):
+    listTrianglesWhite = [[0 for x in range(w)] for y in range(h)]
+    def lineWhite(x, y, quantity, side, wWhite):
         triangle = Triangle()
         for i in range(quantity):
             triangle.drawDownsideTriangle(side, x, y, False)
             x = x + side
-            listTrianglesWhite.append(triangle)
+            listTrianglesWhite[wWhite][i] = triangle
 
     def drawBoardGreen():
         x = 350
         y = 100
+        wGreen = 0
         for i in range(3, 12):
-            lineGreen(x, y, i, 50)
+            lineGreen(x, y, i, 50, wGreen)
             x = x - 25
             y = y + (50 * sqrt(3)/2)
-            wGreen = wGreen + 1
+            wGreen += 1
 
         x = x + 50
         for i in range(10, 8, -1):
-            lineGreen(x, y, i, 50)
+            lineGreen(x, y, i, 50, wGreen)
             x = x + 25
             y = y + (50 * sqrt(3)/2)
-            wGreen = wGreen + 1
+            wGreen += 1
 
     def drawBoardWhite():
         x = 375
         y = 100
+        wWhite = 0
         for i in range(2, 12):
-            lineWhite(x, y, i, 50)
+            lineWhite(x, y, i, 50, wWhite)
             x = x - 25
             y = y + (50 * sqrt(3)/2)
+            wWhite += 1
 
         x = x + 50
         for i in range(10, 9, -1):
-            lineWhite(x, y, i, 50)
+            lineWhite(x, y, i, 50, wWhite)
             x = x + 25
             y = y + (50 * sqrt(3)/2)
-
-    # def drawInitialBlackPieces():
-    #     for i in range
+            wWhite += 1
 
     drawBoardGreen()
     drawBoardWhite()
+
+    # def drawInitialBlackPieces():
+    #     for i in range
 
     # triangle.drawPiece(piece, 1.5)
     # triangle.drawPiece(piece, 2.5)
@@ -143,4 +146,8 @@ while not done:
  
 pygame.quit()
 
-print(listTrianglesGreen[11][1])
+for line in listTrianglesGreen:
+    for obj in line:
+        if obj == 0:
+            continue
+        print(obj.hasPiece)
