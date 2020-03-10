@@ -73,6 +73,20 @@ class Triangle():
         else:
             pass
 
+    def drawButtonGreen(self, side):
+        height = side * sqrt(3)/2
+        heightRec = height*2/3
+        widthRec = (heightRec/height)*25
+
+        pygame.draw.rect(screen, BLACK, (300 + ((50-widthRec)/2), 240, widthRec, heightRec), 0)
+
+    def isOver(self, pos):
+        if pos[0] > self.x and pos[0] < self.x + self.width:
+            if pos[1] > self.y and pos[1] < self.y + self.height:
+                print("True")
+            
+        print("False")
+
 while not done:
     clock.tick(10)
      
@@ -86,8 +100,9 @@ while not done:
     listTrianglesGreen = [[0 for x in range(w)] for y in range(h)]
     def lineGreen(x, y, quantity, side, wGreen):
         triangle = Triangle()
+        triangle.drawButtonGreen(50)
         for i in range(quantity):
-            triangle.drawUpsideTriangle(side, x, y, False)
+            triangle.drawUpsideTriangle(side, x, y, True)
             x = x + side
             listTrianglesGreen[wGreen][i] = triangle
 
