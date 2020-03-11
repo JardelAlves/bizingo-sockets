@@ -75,7 +75,7 @@ class Triangle():
         heightRec = height*2/3
         widthRec = (heightRec/height)*(side/2)
 
-        pygame.draw.rect(screen, BLACK, (300 + ((50-widthRec)/2), 240, widthRec, heightRec), 0)
+        # pygame.draw.rect(screen, BLACK, (300 + ((50-widthRec)/2), 240, widthRec, heightRec), 0)
 
     def isOver(self, pos):
         if pos[0] > self.x and pos[0] < self.x + self.width:
@@ -84,33 +84,28 @@ class Triangle():
             
         print("False")
 
-while not done:
-    clock.tick(10)
-     
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            done=True
- 
-    screen.fill(GREY)
+class Board():
+    def __init__(self, w, h, side):
+        self.listTrianglesGreen = [[0 for x in range(w)] for y in range(h)]
+        self.listTrianglesWhite = [[0 for x in range(w)] for y in range(h)]
+        self.side = side
 
-    w, h = 11, 11
-    listTrianglesGreen = [[0 for x in range(w)] for y in range(h)]
-    def lineGreen(x, y, quantity, side, wGreen):
-        triangle = Triangle(50)
-        triangle.drawButtonGreen(side)
+    def lineGreen(x, y, quantity, wGreen):
+        triangle = Triangle(self.side)
+        # triangle.drawButtonGreen(self.side)
         for i in range(quantity):
             triangle.drawUpsideTriangle(x, y, True)
-            x = x + side
+            x = x + self.side
             listTrianglesGreen[wGreen][i] = triangle
             triangle.drawPiece("black", 1.5)
 
-    listTrianglesWhite = [[0 for x in range(w)] for y in range(h)]
-    def lineWhite(x, y, quantity, side, wWhite):
-        triangle = Triangle(side)
+    def lineWhite(x, y, quantity, wWhite):
+        triangle = Triangle(self.side)
         for i in range(quantity):
             triangle.drawDownsideTriangle(x, y, False)
-            x = x + side
+            x = x + self.side
             listTrianglesWhite[wWhite][i] = triangle
+            triangle.drawPiece("red", 2.5)
 
     def drawBoardGreen():
         x = 300
@@ -145,6 +140,17 @@ while not done:
             x = x + 25
             y = y + (50 * sqrt(3)/2)
             wWhite += 1
+
+while not done:
+    clock.tick(10)
+     
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            done=True
+ 
+    screen.fill(GREY)
+
+    
 
     drawBoardGreen()
     drawBoardWhite()
